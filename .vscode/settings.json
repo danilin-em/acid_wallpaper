@@ -1,0 +1,9 @@
+{
+    "python.pythonPath": "venv/bin/python",
+    "python.linting.enabled": true,
+    "python.linting.flake8Enabled": true,
+    "python.linting.mypyEnabled": true,
+    "python.linting.mypyCategorySeverity.note": "Information",
+    "python.linting.mypyCategorySeverity.error": "Error",
+    "python.linting.mypyPath": "venv/bin/mypy",
+}
