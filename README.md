@@ -2,6 +2,8 @@
 
 Generate colored wallpaper
 
+![Example](./docs/wallpaper.jpg)
+
 ## Usage:
 
 ```bash
