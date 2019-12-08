@@ -1,5 +1,6 @@
 import math
 import sys
+from random import randint
 
 from PIL import Image
 
@@ -67,9 +68,16 @@ def wallpaper(size: Size, inner: Color, outer: Color):
     return image
 
 
+def main(output):
+    inner = Color(randint(100, 255), randint(100, 255), randint(100, 255))
+    outer = Color(randint(100, 255), randint(100, 255), randint(100, 255))
+    image = wallpaper(Size(1600, 900), inner, outer)
+    image.save(output)
+    return image
+
+
 if __name__ == '__main__':
     output = './wallpaper.jpg'
     if len(sys.argv) > 1 and sys.argv[1]:
         output = sys.argv[1]
-    image = wallpaper(Size(800, 600), Color(0, 0, 0), Color(34, 34, 34))
-    image.save(output)
+    main(output)
