@@ -4,7 +4,7 @@ import sys
 from PIL import Image
 
 
-class imgSize:
+class Size:
     def __init__(self, x: int, y: int):
         self.__x = x
         self.__y = y
@@ -23,30 +23,52 @@ class imgSize:
         return (self.__x, self.__y)
 
 
-def main(output: str, size: imgSize):
+class Color:
+    def __init__(self, r: int, g: int, b: int):
+        self.__r = r
+        self.__g = g
+        self.__b = b
+        self.__rgb = [r, g, b]
+
+    @property
+    def r(self) -> int:
+        return self.__r
+
+    @property
+    def g(self) -> int:
+        return self.__g
+
+    @property
+    def b(self) -> int:
+        return self.__b
+
+    @property
+    def rgb(self) -> list:
+        return [self.__r, self.__g, self.__b]
+
+
+def main(output: str, size: Size, inner: Color, outer: Color):
     image = Image.new('RGB', size.xy)  # Create the image
-    innerColor = [80, 80, 255]  # Color at the center
-    outerColor = [0, 0, 80]  # Color at the corners
     for y in range(size.y):
         for x in range(size.x):
             # Find the distance to the center
-            distanceToCenter = math.sqrt(
-                (x - size.x/2) ** 2 + (y - size.y/2) ** 2)
+            center = math.sqrt((x - size.x/2) ** 2 + (y - size.y/2) ** 2)
             # Make it on a scale from 0 to 1
-            distanceToCenter = float(distanceToCenter) / \
-                (math.sqrt(2) * size.x/2)
+            center = float(center) / (math.sqrt(2) * size.x/2)
             # Calculate r, g, and b values
-            r = outerColor[0] * distanceToCenter + \
-                innerColor[0] * (1 - distanceToCenter)
-            g = outerColor[1] * distanceToCenter + \
-                innerColor[1] * (1 - distanceToCenter)
-            b = outerColor[2] * distanceToCenter + \
-                innerColor[2] * (1 - distanceToCenter)
+            r = outer.r * center + \
+                inner.r * (1 - center)
+            g = outer.g * center + \
+                inner.g * (1 - center)
+            b = outer.b * center + \
+                inner.b * (1 - center)
             # Place the pixel
             image.putpixel((x, y), (int(r), int(g), int(b)))
     image.save(output)
-    print('output>', output)
 
 
 if __name__ == '__main__':
-    main(sys.argv[1], imgSize(800, 600))
+    output = './wallpaper.jpg'
+    if len(sys.argv) >= 1 and sys.argv[1]:
+        output = sys.argv[1]
+    main(output, Size(800, 600), Color(80, 80, 255), Color(0, 0, 80))
