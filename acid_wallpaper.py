@@ -47,7 +47,7 @@ class Color:
         return [self.__r, self.__g, self.__b]
 
 
-def main(output: str, size: Size, inner: Color, outer: Color):
+def wallpaper(size: Size, inner: Color, outer: Color):
     image = Image.new('RGB', size.xy)  # Create the image
     for y in range(size.y):
         for x in range(size.x):
@@ -64,11 +64,12 @@ def main(output: str, size: Size, inner: Color, outer: Color):
                 inner.b * (1 - center)
             # Place the pixel
             image.putpixel((x, y), (int(r), int(g), int(b)))
-    image.save(output)
+    return image
 
 
 if __name__ == '__main__':
     output = './wallpaper.jpg'
-    if len(sys.argv) >= 1 and sys.argv[1]:
+    if len(sys.argv) > 1 and sys.argv[1]:
         output = sys.argv[1]
-    main(output, Size(800, 600), Color(80, 80, 255), Color(0, 0, 80))
+    image = wallpaper(Size(800, 600), Color(0, 0, 0), Color(34, 34, 34))
+    image.save(output)
